@@ -68,8 +68,9 @@ public class HystrixCacheServiceImpl implements HystrixCacheService {
 
     @Override
     public void putExeTimeout(String commandKey, int exeTimeout) {
+        // https://github.com/Netflix/Hystrix/wiki/Configuration#execution.isolation.thread.timeoutInMilliseconds
         exeTimeoutMap.put(commandKey, exeTimeout);
-
+        System.setProperty("hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds", exeTimeout + "");
         // 获取 Hystrix 类的 commandProperties 字段
         removeKey(commandKey);
 
@@ -78,23 +79,23 @@ public class HystrixCacheServiceImpl implements HystrixCacheService {
     @Override
     public void putForceOpen(String commandKey, boolean forceOpen) {
         exeForceOpenMap.put(commandKey, forceOpen);
-
+        System.setProperty("hystrix.command.default.circuitBreaker.forceOpen", forceOpen + "");
         removeKey(commandKey);
     }
 
     private static void removeKey(String commandKey) {
-        // 获取 Hystrix 类的 commandProperties 字段
-        Map<String, HystrixCommandProperties> commandPropertiesMap = (Map<String, HystrixCommandProperties>)
-                ReflectUtil.getFieldValue(HystrixPropertiesFactory.class, "commandProperties");
-        ConcurrentHashMap<String, HystrixThreadPoolProperties> threadPoolProperties = (ConcurrentHashMap<String, HystrixThreadPoolProperties>)
-                ReflectUtil.getFieldValue(HystrixPropertiesFactory.class, "threadPoolProperties");
-
-        ConcurrentHashMap<String, HystrixCollapserProperties> collapserProperties = (ConcurrentHashMap<String, HystrixCollapserProperties>)
-                ReflectUtil.getFieldValue(HystrixPropertiesFactory.class, "collapserProperties");
-
-        commandPropertiesMap.remove(commandKey);
-        threadPoolProperties.remove(commandKey);
-        collapserProperties.remove(commandKey);
+//        // 获取 Hystrix 类的 commandProperties 字段
+//        Map<String, HystrixCommandProperties> commandPropertiesMap = (Map<String, HystrixCommandProperties>)
+//                ReflectUtil.getFieldValue(HystrixPropertiesFactory.class, "commandProperties");
+//        ConcurrentHashMap<String, HystrixThreadPoolProperties> threadPoolProperties = (ConcurrentHashMap<String, HystrixThreadPoolProperties>)
+//                ReflectUtil.getFieldValue(HystrixPropertiesFactory.class, "threadPoolProperties");
+//
+//        ConcurrentHashMap<String, HystrixCollapserProperties> collapserProperties = (ConcurrentHashMap<String, HystrixCollapserProperties>)
+//                ReflectUtil.getFieldValue(HystrixPropertiesFactory.class, "collapserProperties");
+//
+//        commandPropertiesMap.remove(commandKey);
+//        threadPoolProperties.remove(commandKey);
+//        collapserProperties.remove(commandKey);
     }
 
     @Override

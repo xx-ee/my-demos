@@ -30,22 +30,26 @@ public class HystrixController {
             threadPoolKey = "queryUserInfoThreadPool",
             cacheKey = "#userId", useCacheAfter = true)
     public Object queryUserInfo(@RequestParam String userId) throws InterruptedException {
+        long start = System.currentTimeMillis();
         log.info("查询用户信息，userId：{}", userId);
 //        if (RandomUtil.randomBoolean()) {
 //            int a = 1 / 0;
 //        }
         Thread.sleep(100);
-        return new UserInfo("虫虫:" + userId, 19, "天津市东丽区万科赏溪苑14-0000");
+        UserInfo userInfo = new UserInfo("虫虫:" + userId, 19, "天津市东丽区万科赏溪苑14-0000");
+        log.info("查询用户信息，userId：{} cost:{}", userId, System.currentTimeMillis() - start);
+        return userInfo;
     }
 
     @GetMapping("/api/timeout")
     public Object putTimeOut(@RequestParam String key, @RequestParam Integer timeout) {
         hystrixCacheService.putExeTimeout(key, timeout);
-        return "结果："+hystrixCacheService.getExeTimeout(key);
+        return "结果：" + hystrixCacheService.getExeTimeout(key);
     }
+
     @GetMapping("/api/forceopen")
     public Object putForceOpen(@RequestParam String key, @RequestParam boolean forceOpen) {
         hystrixCacheService.putForceOpen(key, forceOpen);
-        return "结果："+hystrixCacheService.getForceOpen(key);
+        return "结果：" + hystrixCacheService.getForceOpen(key);
     }
 }

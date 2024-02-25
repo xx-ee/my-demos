@@ -3,25 +3,14 @@ package xxd.demos.hystrix.command;
 import cn.hutool.extra.expression.ExpressionUtil;
 import com.alibaba.fastjson.JSON;
 import com.netflix.hystrix.*;
-import com.netflix.hystrix.contrib.javanica.conf.HystrixPropertiesManager;
-import com.netflix.hystrix.strategy.properties.HystrixPropertiesFactory;
-import com.netflix.hystrix.strategy.properties.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.springframework.cloud.netflix.hystrix.HystrixProperties;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
-import org.springframework.core.ParameterNameDiscoverer;
 import xxd.demos.hystrix.annotation.DoHystrix;
 import xxd.demos.hystrix.service.HystrixCacheService;
 import xxd.demos.hystrix.util.SpUtil;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Supplier;
 
 /**
  * Created by xiedong
@@ -57,9 +46,7 @@ public class DoHystrixCommand extends HystrixCommand<Object> {
                         .Setter()
                         //设置隔离策略为线程池隔离
                         .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.THREAD)
-                        //设置执行超时时间--// 设置熔断超时时间
-                        .withCircuitBreakerForceOpen(hystrixCacheService.getForceOpen(doHystrix.commandKey()))
-                        .withExecutionTimeoutInMilliseconds(hystrixCacheService.getExeTimeout(doHystrix.commandKey())))
+                )
                 //线程池参数配置
                 .andThreadPoolPropertiesDefaults(
                         HystrixThreadPoolProperties
@@ -75,6 +62,12 @@ public class DoHystrixCommand extends HystrixCommand<Object> {
         this.jp = jp;
         this.method = method;
 
+        // 动态更改属性
+        HystrixCommandProperties.Setter()
+                .withExecutionTimeoutInMilliseconds(hystrixCacheService.getExeTimeout(doHystrix.commandKey()))
+//                .withCircuitBreakerRequestVolumeThreshold(20)
+//                .withCircuitBreakerErrorThresholdPercentage(50);
+        ;
 
         // 设置熔断超时时间
 //        Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(this.doHystrix.groupKey()))
