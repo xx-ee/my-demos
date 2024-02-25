@@ -1,5 +1,6 @@
 package xxd.demos.hystrix.controller;
 
+import cn.hutool.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +18,10 @@ import xxd.demos.hystrix.annotation.DoHystrix;
 @Slf4j
 public class HystrixController {
     @GetMapping("/api/queryUserInfo")
-    @DoHystrix(cacheKey = "cache")
+    @DoHystrix(cacheKey = "#userId", useCacheAfter = true)
     public Object queryUserInfo(@RequestParam String userId) throws InterruptedException {
         log.info("查询用户信息，userId：{}", userId);
-        if (StringUtils.isBlank(userId)) {
+        if (RandomUtil.randomBoolean()) {
             int a = 1 / 0;
         }
         return new UserInfo("虫虫:" + userId, 19, "天津市东丽区万科赏溪苑14-0000");

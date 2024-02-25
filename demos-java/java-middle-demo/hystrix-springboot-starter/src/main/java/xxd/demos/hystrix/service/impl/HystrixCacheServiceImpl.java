@@ -22,7 +22,7 @@ import java.time.Duration;
 public class HystrixCacheServiceImpl implements HystrixCacheService {
     @Resource
     private CacheManager cacheManager;
-    private Cache<String, String> userCache;
+    private Cache<String, Object> userCache;
 
     @PostConstruct
     public void init() {
@@ -36,7 +36,7 @@ public class HystrixCacheServiceImpl implements HystrixCacheService {
     }
 
     @Override
-    public String getFallbackData(String key) {
+    public Object getFallbackData(String key) {
         return userCache.get(key);
     }
 

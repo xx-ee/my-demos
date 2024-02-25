@@ -14,7 +14,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface DoHystrix {
-    String cacheKey() default "";
+    String cachePrefix() default "default";
+
+    String cacheKey() default "#id";
+
+    boolean enableCache() default true;
+
+    boolean useCacheFirst() default false;
+
+    boolean useCacheAfter() default false;
 
     /**
      * The command group key is used for grouping together commands such as for reporting,
@@ -31,14 +39,13 @@ public @interface DoHystrix {
      * <p/>
      * default => the name of annotated method. for example:
      * <code>
-     *     ...
-     *     @HystrixCommand
-     *     public User getUserById(...)
-     *     ...
-     *     the command name will be: 'getUserById'
-     * </code>
+     * ...
      *
      * @return command key
+     * @HystrixCommand public User getUserById(...)
+     * ...
+     * the command name will be: 'getUserById'
+     * </code>
      */
     String commandKey() default "";
 

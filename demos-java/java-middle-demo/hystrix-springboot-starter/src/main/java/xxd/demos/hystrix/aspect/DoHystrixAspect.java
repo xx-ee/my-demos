@@ -1,9 +1,5 @@
 package xxd.demos.hystrix.aspect;
 
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.CacheManager;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.template.QuickConfig;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -11,16 +7,17 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.stereotype.Component;
 import xxd.demos.hystrix.annotation.DoHystrix;
 import xxd.demos.hystrix.command.DoHystrixCommand;
 import xxd.demos.hystrix.service.HystrixCacheService;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
-import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by xiedong
@@ -30,7 +27,7 @@ import java.time.Duration;
 @Component
 public class DoHystrixAspect {
 
-    @Resource
+        @Resource
     private HystrixCacheService hystrixCacheService;
 
     @Pointcut("@annotation(xxd.demos.hystrix.annotation.DoHystrix)")

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class UserService {
-    //    @Cached(name = "userCache:", key = "#id", expire = 3600, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.LOCAL)
+        @Cached(name = "userCache:", key = "#id", expire = 3600, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.LOCAL)
     @HystrixCommand(
             groupKey = "testGroup",
             commandKey = "testCommand",
