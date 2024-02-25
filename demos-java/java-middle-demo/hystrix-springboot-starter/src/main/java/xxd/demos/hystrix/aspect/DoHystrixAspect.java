@@ -27,7 +27,7 @@ import java.util.Map;
 @Component
 public class DoHystrixAspect {
 
-        @Resource
+    @Resource
     private HystrixCacheService hystrixCacheService;
 
     @Pointcut("@annotation(xxd.demos.hystrix.annotation.DoHystrix)")
@@ -36,8 +36,8 @@ public class DoHystrixAspect {
 
     @Around("aopPoint() && @annotation(doGovern)")
     public Object doRouter(ProceedingJoinPoint jp, DoHystrix doGovern) throws Throwable {
-        DoHystrixCommand doHystrixCommand = new DoHystrixCommand(doGovern);
-        return doHystrixCommand.access(jp, getMethod(jp), jp.getArgs(), hystrixCacheService);
+        DoHystrixCommand doHystrixCommand = new DoHystrixCommand(doGovern, hystrixCacheService);
+        return doHystrixCommand.access(jp, getMethod(jp), jp.getArgs());
     }
 
     private Method getMethod(JoinPoint jp) throws NoSuchMethodException {

@@ -3,9 +3,13 @@ package xxd.demos.hystrix.command;
 import cn.hutool.extra.expression.ExpressionUtil;
 import com.alibaba.fastjson.JSON;
 import com.netflix.hystrix.*;
+import com.netflix.hystrix.contrib.javanica.conf.HystrixPropertiesManager;
+import com.netflix.hystrix.strategy.properties.HystrixPropertiesFactory;
+import com.netflix.hystrix.strategy.properties.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.springframework.cloud.netflix.hystrix.HystrixProperties;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import xxd.demos.hystrix.annotation.DoHystrix;
@@ -16,6 +20,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 /**
  * Created by xiedong
@@ -29,7 +35,7 @@ public class DoHystrixCommand extends HystrixCommand<Object> {
     private HystrixCacheService hystrixCacheService;
     private String cacheKey;
 
-    public DoHystrixCommand(DoHystrix doHystrix) {
+    public DoHystrixCommand(DoHystrix doHystrix, HystrixCacheService hystrixCacheService) {
         /*********************************************************************************************
          * 置HystrixCommand的属性
          * GroupKey：            该命令属于哪一个组，可以帮助我们更好的组织命令。
@@ -38,6 +44,7 @@ public class DoHystrixCommand extends HystrixCommand<Object> {
          * CommandProperties：   该命令的一些设置，包括断路器的配置，隔离策略，降级设置，以及一些监控指标等。
          * ThreadPoolProperties：关于线程池的配置，包括线程池大小，排队队列的大小等
          *********************************************************************************************/
+
         super(Setter.
                 //设置groupKey
                         withGroupKey(HystrixCommandGroupKey.Factory.asKey(doHystrix.groupKey()))
@@ -51,7 +58,8 @@ public class DoHystrixCommand extends HystrixCommand<Object> {
                         //设置隔离策略为线程池隔离
                         .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.THREAD)
                         //设置执行超时时间--// 设置熔断超时时间
-                        .withExecutionTimeoutInMilliseconds(200))
+                        .withCircuitBreakerForceOpen(hystrixCacheService.getForceOpen(doHystrix.commandKey()))
+                        .withExecutionTimeoutInMilliseconds(hystrixCacheService.getExeTimeout(doHystrix.commandKey())))
                 //线程池参数配置
                 .andThreadPoolPropertiesDefaults(
                         HystrixThreadPoolProperties
@@ -60,16 +68,18 @@ public class DoHystrixCommand extends HystrixCommand<Object> {
                                 .withCoreSize(10))
         );
         this.doHystrix = doHystrix;
+        this.hystrixCacheService = hystrixCacheService;
     }
 
-    public Object access(ProceedingJoinPoint jp, Method method, Object[] args, HystrixCacheService hystrixCacheService) {
+    public Object access(ProceedingJoinPoint jp, Method method, Object[] args) {
         this.jp = jp;
         this.method = method;
-        this.hystrixCacheService = hystrixCacheService;
+
+
         // 设置熔断超时时间
 //        Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(this.doHystrix.groupKey()))
 //                .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
-//                        .withExecutionTimeoutInMilliseconds(doHystrix.timeoutValue()));
+//                        .withExecutionTimeoutInMilliseconds(hystrixCacheService.getExeTimeout(doHystrix.commandKey())));
         this.cacheKey = generateCacheKey(method, args);
         return this.execute();
     }
@@ -118,6 +128,5 @@ public class DoHystrixCommand extends HystrixCommand<Object> {
         }
         return null;
     }
-
 }
 
