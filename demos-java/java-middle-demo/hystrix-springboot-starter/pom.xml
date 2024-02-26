@@ -68,10 +68,19 @@
             <artifactId>commons-beanutils</artifactId>
             <version>1.8.3</version>
         </dependency>
+
         <dependency>
-            <groupId></groupId>
-            <artifactId>commons-lang</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+
+
+
         <!-- hystrix-core -->
         <dependency>
             <groupId>com.netflix.hystrix</groupId>

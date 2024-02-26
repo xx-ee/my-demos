@@ -22,3 +22,15 @@ jetcache:
 server:
   port: 8081
 #      port: ${redis.port}
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: 'prometheus'
+  endpoint:
+    prometheus:
+      enabled: true
+  server:
+    port: 8082
