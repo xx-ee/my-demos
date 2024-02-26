@@ -20,11 +20,12 @@ import java.lang.reflect.Method;
  * Date: 2024/2/24 22:39
  */
 @Aspect
-@Component
 public class DoHystrixAspect {
+    private final HystrixCacheService hystrixCacheService;
 
-    @Resource
-    private HystrixCacheService hystrixCacheService;
+    public DoHystrixAspect(HystrixCacheService hystrixCacheService) {
+        this.hystrixCacheService = hystrixCacheService;
+    }
 
     @Pointcut("@annotation(xxd.demos.hystrix.annotation.DoHystrix)")
     public void aopPoint() {

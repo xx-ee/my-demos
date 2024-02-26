@@ -1,4 +1,4 @@
-package xxd.demos.hystrix.controller;
+package xxd.demo.hystrix.controller;
 
 import lombok.Data;
 

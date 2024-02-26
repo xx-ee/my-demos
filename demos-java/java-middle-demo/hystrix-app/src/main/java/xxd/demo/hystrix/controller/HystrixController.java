@@ -1,4 +1,4 @@
-package xxd.demos.hystrix.controller;
+package xxd.demo.hystrix.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import jakarta.annotation.Resource;
@@ -41,13 +41,17 @@ public class HystrixController {
 
     @GetMapping("/api/timeout")
     public Object putTimeOut(@RequestParam String key, @RequestParam Integer timeout) {
-        hystrixCacheService.putExeTimeout(key, timeout);
-        return "结果：" + hystrixCacheService.getExeTimeout(key);
+//        hystrixCacheService.putExeTimeout(key, timeout);
+//        return "结果：" + hystrixCacheService.getExeTimeout(key);
+        System.setProperty("hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds", timeout + "");
+        return "ok";
     }
 
     @GetMapping("/api/forceopen")
     public Object putForceOpen(@RequestParam String key, @RequestParam boolean forceOpen) {
-        hystrixCacheService.putForceOpen(key, forceOpen);
-        return "结果：" + hystrixCacheService.getForceOpen(key);
+//        hystrixCacheService.putForceOpen(key, forceOpen);
+//        return "结果：" + hystrixCacheService.getForceOpen(key);
+        System.setProperty("hystrix.command.default.circuitBreaker.forceOpen", forceOpen + "");
+        return "ok";
     }
 }
