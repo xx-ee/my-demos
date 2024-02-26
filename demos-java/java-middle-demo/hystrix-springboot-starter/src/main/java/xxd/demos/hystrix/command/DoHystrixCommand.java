@@ -1,5 +1,6 @@
 package xxd.demos.hystrix.command;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.expression.ExpressionUtil;
 import com.alibaba.fastjson.JSON;
 import com.netflix.hystrix.*;
@@ -61,25 +62,13 @@ public class DoHystrixCommand extends HystrixCommand<Object> {
     public Object access(ProceedingJoinPoint jp, Method method, Object[] args) {
         this.jp = jp;
         this.method = method;
-
-        // 动态更改属性
-        HystrixCommandProperties.Setter()
-                .withExecutionTimeoutInMilliseconds(hystrixCacheService.getExeTimeout(doHystrix.commandKey()))
-//                .withCircuitBreakerRequestVolumeThreshold(20)
-//                .withCircuitBreakerErrorThresholdPercentage(50);
-        ;
-
-        // 设置熔断超时时间
-//        Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(this.doHystrix.groupKey()))
-//                .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
-//                        .withExecutionTimeoutInMilliseconds(hystrixCacheService.getExeTimeout(doHystrix.commandKey())));
         this.cacheKey = generateCacheKey(method, args);
         return this.execute();
     }
 
     private String generateCacheKey(Method method, Object[] args) {
         try {
-            if (this.doHystrix.enableCache()) {
+            if (this.doHystrix.enableCache() && StrUtil.isNotBlank(doHystrix.cacheKey())) {
                 Object key = ExpressionUtil.eval(doHystrix.cacheKey(), SpUtil.getParamMap(method, args));
                 return Objects.isNull(key) ? "" : this.doHystrix.cachePrefix() + key.toString();
             }

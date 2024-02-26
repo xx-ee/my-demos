@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface DoHystrix {
     String cachePrefix() default "default";
 
-    String cacheKey() default "#id";
+    String cacheKey() default "";
 
     boolean enableCache() default true;
 

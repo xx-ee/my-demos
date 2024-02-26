@@ -2,14 +2,14 @@ package xxd.demos.hystrix.config;
 
 import com.soundcloud.prometheus.hystrix.HystrixPrometheusMetricsPublisher;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import xxd.demos.hystrix.command.DoHystrixCommand;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 /**
  * Created by xiedong

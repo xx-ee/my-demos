@@ -12,17 +12,20 @@
     <artifactId>hystrix-springboot-starter</artifactId>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring-cloud.version>2021.0.9</spring-cloud.version>
-        <spring-boot.version>2.7.17</spring-boot.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
 
         <prometheus-hystrix.version>4.1.0</prometheus-hystrix.version>
+
+        <jetcache.version>2.7.5</jetcache.version>
+        <hystrix.version>1.5.18</hystrix.version>
     </properties>
 
 
@@ -35,13 +38,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.cloud</groupId>-->
-<!--                <artifactId>spring-cloud-dependencies</artifactId>-->
-<!--                <version>${spring-cloud.version}</version>-->
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.springframework.cloud</groupId>-->
+            <!--                <artifactId>spring-cloud-dependencies</artifactId>-->
+            <!--                <version>${spring-cloud.version}</version>-->
+            <!--                <type>pom</type>-->
+            <!--                <scope>import</scope>-->
+            <!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -79,13 +82,11 @@
         </dependency>
 
 
-
-
         <!-- hystrix-core -->
         <dependency>
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-core</artifactId>
-            <version>1.5.18</version>
+            <version>${hystrix.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>archaius-core</artifactId>
@@ -96,29 +97,37 @@
         <dependency>
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-javanica</artifactId>
-            <version>1.5.18</version>
+            <version>${hystrix.version}</version>
         </dependency>
+
+
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.cloud</groupId>-->
         <!--            <artifactId>spring-cloud-starter-hystrix</artifactId>-->
         <!--            <version>1.4.7.RELEASE</version>-->
         <!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-hystrix -->
-<!--                <dependency>-->
-<!--                    <groupId>org.springframework.cloud</groupId>-->
-<!--                    <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>-->
-<!--                    <version>2.2.10.RELEASE</version>-->
-<!--                    <exclusions>-->
-<!--                        <exclusion>-->
-<!--                            <artifactId>archaius-core</artifactId>-->
-<!--                            <groupId>com.netflix.archaius</groupId>-->
-<!--                        </exclusion>-->
-<!--                        <exclusion>-->
-<!--                            <artifactId>spring-cloud-netflix-archaius</artifactId>-->
-<!--                            <groupId>org.springframework.cloud</groupId>-->
-<!--                        </exclusion>-->
-<!--                    </exclusions>-->
-<!--                </dependency>-->
+        <!--                <dependency>-->
+        <!--                    <groupId>org.springframework.cloud</groupId>-->
+        <!--                    <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>-->
+        <!--                    <version>2.2.10.RELEASE</version>-->
+        <!--                    <exclusions>-->
+        <!--                        <exclusion>-->
+        <!--                            <artifactId>archaius-core</artifactId>-->
+        <!--                            <groupId>com.netflix.archaius</groupId>-->
+        <!--                        </exclusion>-->
+        <!--                        <exclusion>-->
+        <!--                            <artifactId>spring-cloud-netflix-archaius</artifactId>-->
+        <!--                            <groupId>org.springframework.cloud</groupId>-->
+        <!--                        </exclusion>-->
+        <!--                    </exclusions>-->
+        <!--                </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -134,7 +143,7 @@
         <dependency>
             <groupId>com.alicp.jetcache</groupId>
             <artifactId>jetcache-starter-redis</artifactId>
-            <version>2.7.5</version>
+            <version>${jetcache.version}</version>
         </dependency>
         <!--        jetcache2.7.x版本需要额外添加该依赖-->
         <dependency>
@@ -149,11 +158,11 @@
             <version>${prometheus-hystrix.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-            <version>2.9.3</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.ben-manes.caffeine</groupId>-->
+        <!--            <artifactId>caffeine</artifactId>-->
+        <!--            <version>2.9.3</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -205,8 +214,8 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <!--                    <parameters>true</parameters>-->
-                    <!--                    <compilerArgument>-parameters</compilerArgument>-->
+<!--                    <parameters>true</parameters>-->
+                    <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>
             <plugin>

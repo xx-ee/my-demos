@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 //@Import({HystrixCircuitBreakerConfiguration.class, JetCacheAutoConfiguration.class})
-//@EnableMethodCache(basePackages = "xxd.demos.hystrix")
+@EnableMethodCache(basePackages = "xxd.demos.hystrix")
 public class MyHystrixApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyHystrixApplication.class, args);

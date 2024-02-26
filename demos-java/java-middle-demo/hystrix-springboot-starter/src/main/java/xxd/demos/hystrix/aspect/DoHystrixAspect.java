@@ -1,5 +1,6 @@
 package xxd.demos.hystrix.aspect;
 
+import jakarta.annotation.Resource;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -7,17 +8,12 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
-import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.stereotype.Component;
 import xxd.demos.hystrix.annotation.DoHystrix;
 import xxd.demos.hystrix.command.DoHystrixCommand;
 import xxd.demos.hystrix.service.HystrixCacheService;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by xiedong

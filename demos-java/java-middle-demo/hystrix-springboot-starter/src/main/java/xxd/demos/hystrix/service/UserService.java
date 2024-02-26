@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class UserService {
-//        @Cached(name = "userCache:", key = "#id", expire = 3600, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.LOCAL)
+        @Cached(name = "userCache:", key = "#id", expire = 3600, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.LOCAL)
     @HystrixCommand(
             groupKey = "testGroup",
             commandKey = "testCommand",
@@ -24,7 +24,7 @@ public class UserService {
             fallbackMethod = "getLocalFallBack"
     )
     public User getLocal(Long id) {
-        int a = 10 / 0;
+//        int a = 10 / 0;
         // 直接新建用户，模拟从数据库获取数据
         User user = new User();
         user.setId(id);

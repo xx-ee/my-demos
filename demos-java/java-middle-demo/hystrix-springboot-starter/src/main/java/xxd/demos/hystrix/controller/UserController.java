@@ -5,12 +5,12 @@ import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.CacheUpdate;
 import com.alicp.jetcache.anno.Cached;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import xxd.demos.hystrix.service.UserService;
 
-import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @RestController

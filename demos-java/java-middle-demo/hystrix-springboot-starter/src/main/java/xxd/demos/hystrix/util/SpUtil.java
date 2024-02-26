@@ -1,6 +1,8 @@
 package xxd.demos.hystrix.util;
 
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.aop.aspectj.AspectJAdviceParameterNameDiscoverer;
+//import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 
 import java.lang.reflect.Method;
@@ -14,7 +16,7 @@ import java.util.Map;
 public class SpUtil {
     public static Map<String, Object> getParamMap(Method method, Object args[]) {
 
-        ParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
+        ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
         String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
 
         // 创建参数Map
