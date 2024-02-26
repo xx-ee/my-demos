@@ -3,7 +3,6 @@ package xxd.demos.hystrix;
 import com.alicp.jetcache.anno.config.EnableMethodCache;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 /**
  * Created by xiedong
@@ -11,8 +10,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
  */
 @SpringBootApplication
 //@Import({HystrixCircuitBreakerConfiguration.class, JetCacheAutoConfiguration.class})
-@EnableHystrix
-@EnableMethodCache(basePackages = "xxd.demos.hystrix")
+//@EnableMethodCache(basePackages = "xxd.demos.hystrix")
 public class MyHystrixApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyHystrixApplication.class, args);
