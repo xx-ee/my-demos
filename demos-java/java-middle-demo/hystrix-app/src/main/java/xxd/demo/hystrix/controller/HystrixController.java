@@ -30,6 +30,12 @@ public class HystrixController {
     @Resource
     private ApplicationContext applicationContext;
 
+    /**
+     * http://10.2.8.102:8081/hystrix/api/queryUserInfo?userId=1
+     * @param userId
+     * @return
+     * @throws InterruptedException
+     */
     @GetMapping("/api/queryUserInfo")
     @DoHystrix(
             groupKey = "queryUserInfoGroup",
