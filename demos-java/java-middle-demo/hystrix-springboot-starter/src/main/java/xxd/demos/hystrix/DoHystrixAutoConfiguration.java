@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import xxd.demos.hystrix.aspect.DoHystrixAspect;
 import xxd.demos.hystrix.command.DoHystrixCommand;
+import xxd.demos.hystrix.listener.HystrixPropertiesListener;
 import xxd.demos.hystrix.service.HystrixCacheService;
 import xxd.demos.hystrix.service.impl.HystrixCacheServiceImpl;
 
@@ -87,9 +88,17 @@ public class DoHystrixAutoConfiguration {
 
     private class HystrixPrometheus {
         private HystrixPrometheus(PrometheusMeterRegistry prometheusMeterRegistry) {
-            HystrixPrometheusMetricsPublisher.builder().withRegistry(prometheusMeterRegistry.getPrometheusRegistry()).buildAndRegister();
+            HystrixPrometheusMetricsPublisher.builder()
+                    .shouldExportProperties(true)
+                    .shouldExportDeprecatedMetrics(true)
+                    .withRegistry(prometheusMeterRegistry.getPrometheusRegistry()).buildAndRegister();
             log.info("hystrix prometheus adaptored...");
         }
+    }
+
+    @Bean
+    public HystrixPropertiesListener hystrixPropertiesListener() {
+        return new HystrixPropertiesListener();
     }
 
 }

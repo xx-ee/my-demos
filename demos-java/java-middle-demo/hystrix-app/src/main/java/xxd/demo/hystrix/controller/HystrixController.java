@@ -3,12 +3,17 @@ package xxd.demo.hystrix.controller;
 import cn.hutool.core.util.RandomUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xxd.demos.hystrix.annotation.DoHystrix;
+import xxd.demos.hystrix.listener.HystrixPropertiesChangeEvent;
 import xxd.demos.hystrix.service.HystrixCacheService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by xiedong
@@ -20,6 +25,10 @@ import xxd.demos.hystrix.service.HystrixCacheService;
 public class HystrixController {
     @Resource
     private HystrixCacheService hystrixCacheService;
+
+
+    @Resource
+    private ApplicationContext applicationContext;
 
     @GetMapping("/api/queryUserInfo")
     @DoHystrix(
@@ -39,11 +48,15 @@ public class HystrixController {
         return userInfo;
     }
 
-    @GetMapping("/api/timeout")
-    public Object putTimeOut(@RequestParam String key, @RequestParam Integer timeout) {
-//        hystrixCacheService.putExeTimeout(key, timeout);
-//        return "结果：" + hystrixCacheService.getExeTimeout(key);
-        System.setProperty("hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds", timeout + "");
+    /**
+     * http://10.2.8.102:8081/hystrix/api/prop?hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=20
+     * 手动配置
+     * @param map
+     * @return
+     */
+    @GetMapping("/api/prop")
+    public Object putTimeOut(@RequestParam Map<String, Object> map) {
+        applicationContext.publishEvent(new HystrixPropertiesChangeEvent(this, map));
         return "ok";
     }
 
