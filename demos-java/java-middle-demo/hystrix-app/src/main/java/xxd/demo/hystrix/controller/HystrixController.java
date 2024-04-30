@@ -34,11 +34,11 @@ public class HystrixController {
      * @throws InterruptedException
      */
     @GetMapping("/api/queryUserInfo")
-    @DoHystrix(
-            groupKey = "queryUserInfoGroup",
-            commandKey = "queryUserInfo",
-            threadPoolKey = "queryUserInfoThreadPool",
-            cacheKey = "#userId", useCacheAfter = true)
+//    @DoHystrix(
+//            groupKey = "queryUserInfoGroup",
+//            commandKey = "queryUserInfo",
+//            threadPoolKey = "queryUserInfoThreadPool",
+//            cacheKey = "#userId", useCacheAfter = true)
     public Object queryUserInfo(@RequestParam long userId) throws InterruptedException {
         long start = System.currentTimeMillis();
         log.info("查询用户信息，userId：{}", userId);
