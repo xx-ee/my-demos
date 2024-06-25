@@ -28,12 +28,26 @@
             <scope>test</scope>
         </dependency>
 
+
         <dependency>
-            <groupId>com.my-demo</groupId>
-            <artifactId>hystrix-springboot-starter</artifactId>
-            <version>1.0</version>
+            <groupId>io.github.xx-ee</groupId>
+            <artifactId>hystrix-cache-starter</artifactId>
+            <version>1.0.0</version>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.my-demo</groupId>-->
+        <!--            <artifactId>hystrix-springboot-starter</artifactId>-->
+        <!--            <version>1.0</version>-->
+        <!--        </dependency>-->
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>central-repos</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>

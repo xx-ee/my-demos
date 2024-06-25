@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xxd.demo.hystrix.outer.UserInfoOuterService;
-import xxd.demos.hystrix.annotation.DoHystrix;
-import xxd.demos.hystrix.listener.HystrixPropertiesChangeEvent;
 
 import java.util.Map;
 
@@ -56,7 +54,7 @@ public class HystrixController {
      */
     @GetMapping("/api/prop")
     public Object putTimeOut(@RequestParam Map<String, Object> map) {
-        applicationContext.publishEvent(new HystrixPropertiesChangeEvent(this, map));
+//        applicationContext.publishEvent(new HystrixPropertiesChangeEvent(this, map));
         return "ok";
     }
 

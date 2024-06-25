@@ -48,7 +48,7 @@ public class DoHystrixAutoConfiguration {
     @ConditionalOnMissingBean
     public Cache<String, Object> getHystrixCache(@Autowired CacheManager cacheManager) {
         QuickConfig qc = QuickConfig.newBuilder(HystrixCache)
-                .expire(Duration.ofSeconds(100))
+                .expire(Duration.ofSeconds(5))
                 .cacheType(CacheType.LOCAL) // two level cache
                 .localLimit(50)
                 .syncLocal(true) // invalidate local cache in all jvm process after update
