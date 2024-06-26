@@ -22,9 +22,14 @@ public class UserInfoOuterService {
             commandKey = "getNickname",
             threadPoolKey = "getNicknameThreadPool",
 //            cacheKey = "#userId", useCacheFirst = true)
-            cacheKey = "#userId", useCacheAfter = true)
+            cacheKey = "#userId", useCacheAfter = true,
+            fallbackDefaultJson="{\n" +
+                    "  \"key1\": \"11\",\n" +
+                    "  \"key2\": \"这是默认返回数据\"\n" +
+                    "}"
+    )
     public String getNickname(long userId) {
-        String result = restTemplate.getForObject("http://localhost:8090/outer/user/api/nickname/query?userId=" + userId, String.class);
+        String result = restTemplate.getForObject("http://localhost:8888/user?userId=" + userId, String.class);
 //        String result = restTemplate.getForObject("http://localhost:" + serverPort + "/outer/user/api/nickname/query?userId=" + userId, String.class);
         return result;
     }

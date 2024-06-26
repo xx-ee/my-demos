@@ -32,7 +32,7 @@
         <dependency>
             <groupId>io.github.xx-ee</groupId>
             <artifactId>hystrix-cache-starter</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.2</version>
         </dependency>
         <!--        <dependency>-->
         <!--            <groupId>com.my-demo</groupId>-->
