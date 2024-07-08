@@ -1,5 +1,6 @@
 package xxd.demo.hystrix.controller;
 
+import io.github.xxee.hystrix.cache.listener.HystrixPropertiesChangeEvent;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -32,11 +33,6 @@ public class HystrixController {
      * @throws InterruptedException
      */
     @GetMapping("/api/queryUserInfo")
-//    @DoHystrix(
-//            groupKey = "queryUserInfoGroup",
-//            commandKey = "queryUserInfo",
-//            threadPoolKey = "queryUserInfoThreadPool",
-//            cacheKey = "#userId", useCacheAfter = true)
     public Object queryUserInfo(@RequestParam long userId) throws InterruptedException {
         long start = System.currentTimeMillis();
         log.info("查询用户信息，userId：{}", userId);
@@ -54,7 +50,7 @@ public class HystrixController {
      */
     @GetMapping("/api/prop")
     public Object putTimeOut(@RequestParam Map<String, Object> map) {
-//        applicationContext.publishEvent(new HystrixPropertiesChangeEvent(this, map));
+        applicationContext.publishEvent(new HystrixPropertiesChangeEvent(this, map));
         return "ok";
     }
 
