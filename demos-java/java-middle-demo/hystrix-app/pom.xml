@@ -28,17 +28,11 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
             <groupId>io.github.xx-ee</groupId>
             <artifactId>hystrix-cache-starter</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.5</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.my-demo</groupId>-->
-        <!--            <artifactId>hystrix-springboot-starter</artifactId>-->
-        <!--            <version>1.0</version>-->
-        <!--        </dependency>-->
     </dependencies>
 
     <repositories>
