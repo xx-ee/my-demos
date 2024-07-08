@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableHystrixCmd
 @EnableMethodCache(basePackages = "xxd.**")
 @EnableCreateCacheAnnotation // deprecated in jetcache 2.7, can be removed if @CreateCache is not used
-public class HystrixAppApplication {
+public class TestClientApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(HystrixAppApplication.class, args);
+        SpringApplication.run(TestClientApp.class, args);
     }
 
 }
